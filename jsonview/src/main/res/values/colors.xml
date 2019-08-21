@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="json_view_key_color">#222222</color>
+    <color name="json_view_value_color">#BFBFBF</color>
+    <color name="json_view_collapsed_info_text_color">#BFBFBF</color>
+</resources>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="@dimen/json_view_primary_item_height"
+    android:gravity="center_vertical">
+
+    <io.liuxiangdong.jsonview.IndentationView
+        android:id="@+id/json_view_indentation_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent" />
+
+    <TextView
+        android:id="@+id/json_view_key"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical|right|end"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:textColor="@color/json_view_key_color"
+        android:textIsSelectable="true"
+        android:textSize="@dimen/json_view_primary_text_size"
+        android:textStyle="bold"
+        tools:text="key" />
+
+    <TextView
+        android:id="@+id/json_view_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/json_view_primary_margin_left"
+        android:layout_marginLeft="@dimen/json_view_primary_margin_left"
+        android:gravity="center_vertical"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:textColor="@color/json_view_value_color"
+        android:textIsSelectable="true"
+        android:textSize="@dimen/json_view_primary_text_size"
+        tools:text="value" />
+</LinearLayout>
