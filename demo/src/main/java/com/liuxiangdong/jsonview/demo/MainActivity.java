@@ -1,11 +1,16 @@
 package com.liuxiangdong.jsonview.demo;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.Toast;
 
 import com.liuxiangdong.jsonview.ConfigurationProvider;
 import com.liuxiangdong.jsonview.JsonView;
+import com.liuxiangdong.jsonview.OnCopyJsonStringListener;
 import com.liuxiangdong.jsonview.entry.JsonCompoundEntry;
 
 /**
@@ -71,6 +76,14 @@ public class MainActivity extends AppCompatActivity {
                 "        }]\n" +
                 "    }]\n" +
                 "}");
+        jsonView.setOnCopyJsonStringListener(new OnCopyJsonStringListener() {
+            @Override
+            public void onCopy(String json) {
+                ClipboardManager clipboardManager = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                clipboardManager.setPrimaryClip(ClipData.newPlainText(null, json));
+                Toast.makeText(MainActivity.this, "The json string has been copied to the clip board", Toast.LENGTH_SHORT).show();
+            }
+        });
 
     }
 }

@@ -22,7 +22,7 @@ import com.liuxiangdong.jsonview.entry.JsonObjectEntry;
 import com.liuxiangdong.jsonview.vm.JsonViewModel;
 
 /**
- * A custom view that displays Json in a interactive manner. Basically this class provides a list of
+ * A custom view that displays Json in an interactive manner. Basically this class provides a list of
  * {@link JsonViewModel}s which represent each element that displayed in a Json list. And accept a
  * {@link JsonAdapter} that render each {@link JsonViewModel} as ViewHolder.
  * class
