@@ -1,10 +1,10 @@
-[中文](https://github.com/LiuXiangdong/jsonview/blob/master/README_CN.md)
+[English](https://github.com/LiuXiangdong/jsonview/blob/master/README.md)
 # JsonView
-A custom view that displays Json in an interactive manner.
+可交互的Json自定义控件。
 ![](https://raw.githubusercontent.com/Liuxiangdong/jsonview/master/image/image0.png)
-# Usage
-JsonView is a RecyclerView under the hood, so basically you can use it like a RecyclerView. You don’t have to set the LayoutManager, because JsonView uses the LinearLayoutManager as default. Then you have to set the adapter which extend the [JsonAdapter](https://github.com/LiuXiangdong/jsonview/blob/master/library/src/main/java/com/liuxiangdong/jsonview/JsonAdapter.java).
-For example, in your xml file
+# 使用
+JsonView在底层是一个RecyclerView，所以使用方式也是类似于RecyclerView。JsonView默认使用LinearLayoutManager，所以使用者无需指定LayoutManager。JsonView接收继承自[JsonAdapter](https://github.com/LiuXiangdong/jsonview/blob/master/library/src/main/java/com/liuxiangdong/jsonview/JsonAdapter.java)子类的adapter。
+例如，在布局的xml文件中：
 ```xml
 <HorizontalScrollView
     android:layout_width="wrap_content"
@@ -16,15 +16,15 @@ For example, in your xml file
         android:layout_height="wrap_content"/>
 </HorizontalScrollView>
 ```
-Then in your Java file
+在Java文件中可通过如下方式使用：
 ```java
 JsonView jsonView = findViewById(R.id.json_view);
 jsonView.setJson(/**Your Json String**/);
 ```
-Besides accepting a Json string, the JsonView accepts JSONObject or JSONArray as well by using the method of setJsonObject() and setJsonArray().
-_Note: If either of the three method receive an invalid Json, the JsonView will do nothing._
-# Customization & Utility
-There is one way you can customize the JsonView through [ConfigurationProvider](https://github.com/LiuXiangdong/jsonview/blob/master/library/src/main/java/com/liuxiangdong/jsonview/ConfigurationProvider.java)
+除了可以设置字符串的方式，JsonView也可以通过setJsonObject()和setJsonArray()这两个方法设置Json。 
+_注：如果上述三个方法接收了无效的Json，JsonView将不会执行任何操作。_
+# 自定义以及工具类
+通过[ConfigurationProvider](https://github.com/LiuXiangdong/jsonview/blob/master/library/src/main/java/com/liuxiangdong/jsonview/ConfigurationProvider.java)，使用者可以自定义JsonView：
 ```java
 /**
  * An interface for providing the default configuration.
@@ -39,7 +39,7 @@ public interface ConfigurationProvider {
     boolean shouldCollapse(JsonCompoundEntry<?> compoundEntry);
 }
 ```
-The JsonView provides a utility to copy a JSONObject entry or a JSONArray entry through the [OnCopyJsonStringListener](https://github.com/LiuXiangdong/jsonview/blob/master/library/src/main/java/com/liuxiangdong/jsonview/OnCopyJsonStringListener.java)
+通过[OnCopyJsonStringListener](https://github.com/LiuXiangdong/jsonview/blob/master/library/src/main/java/com/liuxiangdong/jsonview/OnCopyJsonStringListener.java)，使用者可以获取JSONObject或者JSONArray条目的字符串形式值：
 ```java
 /**
  * The listener for copying a single JSONObject or JSONArray action.
@@ -53,15 +53,15 @@ public interface OnCopyJsonStringListener {
 }
 ```
 # DefaultJsonView
-The library provides a default implementation of [JsonAdapter](https://github.com/LiuXiangdong/jsonview/blob/master/library/src/main/java/com/liuxiangdong/jsonview/JsonAdapter.java), namely the [DefaultJsonAdapter](https://github.com/LiuXiangdong/jsonview/blob/master/library/src/main/java/com/liuxiangdong/jsonview/DefaultJsonAdapter.java) as its name indicates, which is the adapter of [DefaultJsonView](https://github.com/LiuXiangdong/jsonview/blob/master/library/src/main/java/com/liuxiangdong/jsonview/DefaultJsonView.java). The appearance is displayed as above image.
-## Functions
-The [DefaultJsonView](https://github.com/LiuXiangdong/jsonview/blob/master/library/src/main/java/com/liuxiangdong/jsonview/DefaultJsonView.java) provides functions as below
-1. Collapse or expand a JSONObject or a JSONArray entry by clicking the “-” or the “+” element.
-2. Collapse all or expand all the JSONObject or the JSONArray entries by long clicking the “-” or the “+” element.
-3. Copy the JSONObject or the JSONArray entry by clicking the “copy” element.
-4. Copy the key or value of a key-value entry by long clicking the key or the value element. Because the text of the key and value TextViews are selectable, so a context menu will be shown by the framework.
-## Customization
-If you want to customize the style of the [DefaultJsonView](https://github.com/LiuXiangdong/jsonview/blob/master/library/src/main/java/com/liuxiangdong/jsonview/DefaultJsonView.java), you can provide a [ElementProvider](https://github.com/LiuXiangdong/jsonview/blob/master/library/src/main/java/com/liuxiangdong/jsonview/ElementProvider.java) to customize the element of it.
+此库提供了一个[JsonAdapter](https://github.com/LiuXiangdong/jsonview/blob/master/library/src/main/java/com/liuxiangdong/jsonview/JsonAdapter.java)的默认实现，即[DefaultJsonAdapter](https://github.com/LiuXiangdong/jsonview/blob/master/library/src/main/java/com/liuxiangdong/jsonview/DefaultJsonAdapter.java)。也即是[DefaultJsonView](https://github.com/LiuXiangdong/jsonview/blob/master/library/src/main/java/com/liuxiangdong/jsonview/DefaultJsonView.java)的默认adapter。这个控件的样式如上图展示。
+## 功能
+[DefaultJsonView](https://github.com/LiuXiangdong/jsonview/blob/master/library/src/main/java/com/liuxiangdong/jsonview/DefaultJsonView.java)提供了如下功能：
+1. 可点击“-”或“+”元素展开或收起JSONObject或JSONArray条目。
+2. 可长按“-”或“+”元素展开或收起全部JSONObject或JSONArray条目。
+3. 可点击“复制”元素复制JSONObject或JSONArray条目。
+4. 可长按“键”或“值”元素复制键值对条目的键值。因为，键值对对应的TextView的文字是可选的，所以长按时会弹出系统的弹框。
+## 自定义
+如果使用者希望自定义[DefaultJsonView](https://github.com/LiuXiangdong/jsonview/blob/master/library/src/main/java/com/liuxiangdong/jsonview/DefaultJsonView.java)的样式,可通过[ElementProvider](https://github.com/LiuXiangdong/jsonview/blob/master/library/src/main/java/com/liuxiangdong/jsonview/ElementProvider.java)来定义每个元素的样式：
 ```java
 /**
  * An interface for customizing the appearance of the ViewHolder used in {@link DefaultJsonAdapter}.
