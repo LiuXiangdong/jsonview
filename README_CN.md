@@ -3,6 +3,12 @@
 可交互的Json自定义控件。
 ![](https://raw.githubusercontent.com/Liuxiangdong/jsonview/master/image/image0.png)
 # 使用
+在build.gradle文件中添加依赖：
+```xml
+dependencies {
+    implementation 'com.liuxiangdong.jsonview:library:1.0.0@aar'
+}
+```
 JsonView在底层是一个RecyclerView，所以使用方式也是类似于RecyclerView。JsonView默认使用LinearLayoutManager，所以使用者无需指定LayoutManager。JsonView接收继承自[JsonAdapter](https://github.com/LiuXiangdong/jsonview/blob/master/library/src/main/java/com/liuxiangdong/jsonview/JsonAdapter.java)子类的adapter。
 例如，在布局的xml文件中：
 ```xml

@@ -3,6 +3,12 @@
 A custom view that displays Json in an interactive manner.
 ![](https://raw.githubusercontent.com/Liuxiangdong/jsonview/master/image/image0.png)
 # Usage
+Add the dependency in your build.gradle file
+```xml
+dependencies {
+    implementation 'com.liuxiangdong.jsonview:library:1.0.0@aar'
+}
+```
 JsonView is a RecyclerView under the hood, so basically you can use it like a RecyclerView. You don’t have to set the LayoutManager, because JsonView uses the LinearLayoutManager as default. Then you have to set the adapter which extend the [JsonAdapter](https://github.com/LiuXiangdong/jsonview/blob/master/library/src/main/java/com/liuxiangdong/jsonview/JsonAdapter.java).
 For example, in your xml file
 ```xml
