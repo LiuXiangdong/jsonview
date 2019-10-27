@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
-    <com.liuxiangdong.jsonview.DefaultJsonView
-        android:id="@+id/json_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-</HorizontalScrollView>
+
+<com.liuxiangdong.jsonview.DefaultJsonView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/json_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" />
