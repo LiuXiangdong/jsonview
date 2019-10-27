@@ -31,10 +31,9 @@ public class JsonKeyValueViewModel<T> extends JsonKeyViewModel {
 
     /**
      * This method provides the information text of the value of a {@link com.liuxiangdong.jsonview.entry.JsonEntry}.
-     * @param context
      * @return
      */
-    public T getValue(Context context) {
+    public T getValue() {
         return value;
     }
 }

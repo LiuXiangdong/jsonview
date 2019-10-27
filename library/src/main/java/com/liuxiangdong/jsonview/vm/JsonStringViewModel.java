@@ -15,10 +15,6 @@
  */
 package com.liuxiangdong.jsonview.vm;
 
-import android.content.Context;
-
-import com.liuxiangdong.jsonview.R;
-
 /**
  * A string value item.
  */
@@ -29,7 +25,7 @@ public class JsonStringViewModel extends JsonKeyValueViewModel<String> {
     }
 
     @Override
-    public String getValue(Context context) {
-        return context.getString(R.string.json_view_json_string, super.getValue(context));
+    public String getValue() {
+        return '"' + super.getValue() + '"';
     }
 }

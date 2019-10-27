@@ -55,7 +55,7 @@ public class JsonObjectBeginViewHolder extends CopyJsonStringViewHolder<JsonObje
     @Override
     public void onBind(JsonObjectBeginViewModel jsonObjectBeginViewModel) {
         super.onBind(jsonObjectBeginViewModel);
-        CharSequence key = jsonObjectBeginViewModel.getKey(keyTextView.getContext());
+        CharSequence key = jsonObjectBeginViewModel.getKey();
         if (TextUtils.isEmpty(key)) {
             keyTextView.setVisibility(View.GONE);
         } else {

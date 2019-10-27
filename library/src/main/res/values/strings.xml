@@ -4,7 +4,6 @@
     <string name="json_view_opening_bracket">[</string>
     <string name="json_view_closing_brace">}</string>
     <string name="json_view_closing_bracket">]</string>
-    <string name="json_view_json_string" tools:ignore="TypographyQuotes">\"%1$s\"</string>
     <string name="json_view_json_array_collapsed_info">Array [%1$d]</string>
     <string name="json_view_json_object_collapsed_info" tools:ignore="TypographyEllipsis">Object {...}</string>
 </resources>

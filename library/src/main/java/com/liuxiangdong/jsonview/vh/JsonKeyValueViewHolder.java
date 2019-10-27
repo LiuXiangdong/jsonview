@@ -37,6 +37,6 @@ public class JsonKeyValueViewHolder extends ValidViewHolder<JsonKeyValueViewMode
     @Override
     public void onBind(JsonKeyValueViewModel<?> jsonKeyValueViewModel) {
         super.onBind(jsonKeyValueViewModel);
-        key.setText(jsonKeyValueViewModel.getKey(key.getContext()));
+        key.setText(jsonKeyValueViewModel.getKey());
     }
 }

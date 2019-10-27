@@ -52,7 +52,7 @@ public class JsonObjectCollapsedViewHolder extends CopyJsonStringViewHolder<Json
     @Override
     public void onBind(JsonObjectCollapsedViewModel jsonObjectCollapsedViewModel) {
         super.onBind(jsonObjectCollapsedViewModel);
-        CharSequence key = jsonObjectCollapsedViewModel.getKey(keyTextView.getContext());
+        CharSequence key = jsonObjectCollapsedViewModel.getKey();
         if (TextUtils.isEmpty(key)) {
             keyTextView.setVisibility(View.GONE);
         } else {
