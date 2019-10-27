@@ -9,7 +9,7 @@ dependencies {
     implementation 'com.liuxiangdong.jsonview:library:1.0.0@aar'
 }
 ```
-JsonView is a RecyclerView under the hood, so basically you can use it like a RecyclerView. You don’t have to set the LayoutManager, because JsonView uses the LinearLayoutManager as default. Then you have to set the adapter which extend the [JsonAdapter](https://github.com/LiuXiangdong/jsonview/blob/master/library/src/main/java/com/liuxiangdong/jsonview/JsonAdapter.java).
+JsonView is a RecyclerView under the hood, so basically you can use it like a RecyclerView. ~~You don’t have to set the LayoutManager, because JsonView uses the LinearLayoutManager as default~~(Starting from 1.1.0 JsonView can scroll horizontally, an exception will be thrown if you use setLayoutManager method). Then you have to set the adapter which extend the [JsonAdapter](https://github.com/LiuXiangdong/jsonview/blob/master/library/src/main/java/com/liuxiangdong/jsonview/JsonAdapter.java).
 For example, in your xml file
 ```xml
 <HorizontalScrollView
@@ -22,6 +22,7 @@ For example, in your xml file
         android:layout_height="wrap_content"/>
 </HorizontalScrollView>
 ```
+_Note: Starting from 1.1.0, JsonView can scroll horizontally, so you don't have to put it into a HorizontalScrollView._
 Then in your Java file
 ```java
 JsonView jsonView = findViewById(R.id.json_view);

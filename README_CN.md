@@ -9,7 +9,7 @@ dependencies {
     implementation 'com.liuxiangdong.jsonview:library:1.0.0@aar'
 }
 ```
-JsonView在底层是一个RecyclerView，所以使用方式也是类似于RecyclerView。JsonView默认使用LinearLayoutManager，所以使用者无需指定LayoutManager。JsonView接收继承自[JsonAdapter](https://github.com/LiuXiangdong/jsonview/blob/master/library/src/main/java/com/liuxiangdong/jsonview/JsonAdapter.java)子类的adapter。
+JsonView在底层是一个RecyclerView，所以使用方式也是类似于RecyclerView。~~JsonView默认使用LinearLayoutManager，所以使用者无需指定LayoutManager~~（从1.1.0版本开始，JsonView使用了内部可横滑的LayoutManager，使用setLayoutManager会抛出异常）。JsonView接收继承自[JsonAdapter](https://github.com/LiuXiangdong/jsonview/blob/master/library/src/main/java/com/liuxiangdong/jsonview/JsonAdapter.java)子类的adapter。
 例如，在布局的xml文件中：
 ```xml
 <HorizontalScrollView
@@ -22,6 +22,7 @@ JsonView在底层是一个RecyclerView，所以使用方式也是类似于Recycl
         android:layout_height="wrap_content"/>
 </HorizontalScrollView>
 ```
+_注：从1.1.0版本开始，JsonView可以左右滑动，所以无需嵌入HorizontalScrollView中。_
 在Java文件中可通过如下方式使用：
 ```java
 JsonView jsonView = findViewById(R.id.json_view);
