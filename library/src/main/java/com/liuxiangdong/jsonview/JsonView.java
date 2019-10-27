@@ -18,9 +18,16 @@ package com.liuxiangdong.jsonview;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
+import android.view.View;
+
+import com.liuxiangdong.jsonview.entry.JsonArrayEntry;
+import com.liuxiangdong.jsonview.entry.JsonCompoundEntry;
+import com.liuxiangdong.jsonview.entry.JsonObjectEntry;
+import com.liuxiangdong.jsonview.vm.JsonViewModel;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -30,11 +37,6 @@ import org.json.JSONTokener;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
-import com.liuxiangdong.jsonview.entry.JsonArrayEntry;
-import com.liuxiangdong.jsonview.entry.JsonCompoundEntry;
-import com.liuxiangdong.jsonview.entry.JsonObjectEntry;
-import com.liuxiangdong.jsonview.vm.JsonViewModel;
 
 /**
  * A custom view that displays Json in an interactive manner. Basically this class provides a list of
@@ -77,11 +79,17 @@ public class JsonView extends RecyclerView implements JsonCompoundEntry.OnStateC
 
     private void init(Context context) {
         //Display the Json list as a linear vertical list.
-        setLayoutManager(new LinearLayoutManager(context));
+        super.setLayoutManager(new HorizontalScrollLinearLayoutManager(context));
+    }
+
+    @Override
+    public void setLayoutManager(@Nullable LayoutManager layout) {
+        throw new IllegalStateException("LayoutManager cannot be changed.");
     }
 
     /**
      * Set the Json string that is to be displayed in the view.
+     *
      * @param jsonString the Json string to be displayed
      */
     public void setJson(String jsonString) {
@@ -99,6 +107,7 @@ public class JsonView extends RecyclerView implements JsonCompoundEntry.OnStateC
 
     /**
      * Set the JSONObject that is to be displayed in the view.
+     *
      * @param jsonObject the JSONObject to be displayed
      */
     public void setJsonObject(JSONObject jsonObject) {
@@ -110,6 +119,7 @@ public class JsonView extends RecyclerView implements JsonCompoundEntry.OnStateC
 
     /**
      * Set the JSONArray that is to be displayed in the view.
+     *
      * @param jsonArray the JSONArray to be displayed
      */
     public void setJsonArray(JSONArray jsonArray) {
@@ -132,6 +142,7 @@ public class JsonView extends RecyclerView implements JsonCompoundEntry.OnStateC
 
     /**
      * Set the {@link OnCopyJsonStringListener}.
+     *
      * @param listener {@link OnCopyJsonStringListener}
      */
     public void setOnCopyJsonStringListener(OnCopyJsonStringListener listener) {
@@ -143,6 +154,7 @@ public class JsonView extends RecyclerView implements JsonCompoundEntry.OnStateC
 
     /**
      * Set the {@link ConfigurationProvider}.
+     *
      * @param configurationProvider {@link ConfigurationProvider}
      */
     public void setConfigurationProvider(ConfigurationProvider configurationProvider) {
@@ -173,5 +185,71 @@ public class JsonView extends RecyclerView implements JsonCompoundEntry.OnStateC
     @Override
     public void onStateChange() {
         invalidateViewModels();
+    }
+
+    /**
+     * A {@link LinearLayoutManager} that can scroll horizontally.
+     */
+    private static class HorizontalScrollLinearLayoutManager extends LinearLayoutManager {
+        /**
+         * Keep track of the current left of the children
+         */
+        private int mCurrentLeft;
+
+        HorizontalScrollLinearLayoutManager(Context context) {
+            super(context);
+        }
+
+        @Override
+        public void layoutDecoratedWithMargins(@NonNull View child, int left, int top, int right, int bottom) {
+            super.layoutDecoratedWithMargins(child, left, top, right, bottom);
+            ViewCompat.offsetLeftAndRight(child, mCurrentLeft - child.getLeft());
+        }
+
+        @SuppressWarnings("ConstantConditions")
+        @Override
+        public int scrollHorizontallyBy(int dx, Recycler recycler, State state) {
+            int childCount = getChildCount();
+            if (childCount == 0 || dx == 0) {
+                return 0;
+            }
+            int scrolled = 0;
+            //noinspection IfStatementWithIdenticalBranches
+            if (dx > 0) {
+                int maxRightDiff = 0;
+                for (int i = 0; i < childCount; i++) {
+                    int rightDiff = getChildAt(i).getRight() - getWidth();
+                    if (rightDiff > maxRightDiff) {
+                        maxRightDiff = rightDiff;
+                    }
+                }
+                if (maxRightDiff > 0) {
+                    scrolled = Math.min(dx, maxRightDiff);
+                    for (int i = 0; i < childCount; i++) {
+                        ViewCompat.offsetLeftAndRight(getChildAt(i), -scrolled);
+                    }
+                }
+            } else {
+                int minLeft = 0;
+                for (int i = 0; i < childCount; i++) {
+                    if (getChildAt(i).getLeft() < minLeft) {
+                        minLeft = getChildAt(i).getLeft();
+                    }
+                }
+                if (minLeft < 0) {
+                    scrolled = Math.max(dx, minLeft);
+                    for (int i = 0; i < childCount; i++) {
+                        ViewCompat.offsetLeftAndRight(getChildAt(i), -scrolled);
+                    }
+                }
+            }
+            mCurrentLeft = getChildAt(0).getLeft();
+            return scrolled;
+        }
+
+        @Override
+        public boolean canScrollHorizontally() {
+            return true;
+        }
     }
 }
