@@ -15,8 +15,6 @@
  */
 package com.liuxiangdong.jsonview.vm;
 
-import android.content.Context;
-
 /**
  * A key-value item.
  * @param <T>
