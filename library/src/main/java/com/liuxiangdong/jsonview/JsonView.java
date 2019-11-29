@@ -164,7 +164,7 @@ public class JsonView extends RecyclerView implements JsonCompoundEntry.OnStateC
     /**
      * Somewhere of the tree of the {@link com.liuxiangdong.jsonview.entry.JsonEntry} is dirty.
      * So the list of {@link JsonViewModel}s need to be rebuilt.
-     * Basically it is called during the initialization or a JSONObject or a JSONArray is expaned
+     * Basically it is called during the initialization or a JSONObject or a JSONArray is expanded
      * or collapsed.
      */
     private void invalidateViewModels() {
