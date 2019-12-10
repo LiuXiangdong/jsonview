@@ -15,23 +15,22 @@
  */
 package com.liuxiangdong.jsonview.entry;
 
-import java.util.Collections;
-import java.util.List;
-
-import com.liuxiangdong.jsonview.vm.JsonBooleanViewModel;
+import com.liuxiangdong.jsonview.entry.converter.JsonEntryConverterRegistry;
 import com.liuxiangdong.jsonview.vm.JsonViewModel;
+
+import java.util.List;
 
 /**
  * A boolean value entry.
  */
-class JsonBooleanEntry extends JsonKeyValueEntry<Boolean> {
+public class JsonBooleanEntry extends JsonKeyValueEntry<Boolean> {
 
-    JsonBooleanEntry(String key, Boolean value, int depth, int index) {
-        super(key, value, depth, index);
+    JsonBooleanEntry(String key, Boolean value, int depth, int index, JsonEntryConverterRegistry registry) {
+        super(key, value, depth, index, registry);
     }
 
     @Override
     protected List<? extends JsonViewModel> provideViewModels() {
-        return Collections.singletonList(new JsonBooleanViewModel(getKey(), getValue(), getDepth(), getParentEntryCount(), getIndex()));
+        return getRegistry().getJsonEntryConverter(JsonBooleanEntry.class).convert(this);
     }
 }

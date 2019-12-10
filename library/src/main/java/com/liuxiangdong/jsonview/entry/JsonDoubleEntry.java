@@ -15,23 +15,22 @@
  */
 package com.liuxiangdong.jsonview.entry;
 
-import java.util.Collections;
-import java.util.List;
-
-import com.liuxiangdong.jsonview.vm.JsonDoubleViewModel;
+import com.liuxiangdong.jsonview.entry.converter.JsonEntryConverterRegistry;
 import com.liuxiangdong.jsonview.vm.JsonViewModel;
+
+import java.util.List;
 
 /**
  * A double value entry.
  */
-class JsonDoubleEntry extends JsonKeyValueEntry<Double> {
+public class JsonDoubleEntry extends JsonKeyValueEntry<Double> {
 
-    JsonDoubleEntry(String key, Double value, int depth, int index) {
-        super(key, value, depth, index);
+    JsonDoubleEntry(String key, Double value, int depth, int index, JsonEntryConverterRegistry registry) {
+        super(key, value, depth, index, registry);
     }
 
     @Override
     protected List<? extends JsonViewModel> provideViewModels() {
-        return Collections.singletonList(new JsonDoubleViewModel(getKey(), getValue(), getDepth(), getParentEntryCount(), getIndex()));
+        return getRegistry().getJsonEntryConverter(JsonDoubleEntry.class).convert(this);
     }
 }

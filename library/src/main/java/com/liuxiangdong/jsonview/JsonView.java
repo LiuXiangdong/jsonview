@@ -25,8 +25,25 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import com.liuxiangdong.jsonview.entry.JsonArrayEntry;
+import com.liuxiangdong.jsonview.entry.JsonBooleanEntry;
 import com.liuxiangdong.jsonview.entry.JsonCompoundEntry;
+import com.liuxiangdong.jsonview.entry.JsonDoubleEntry;
+import com.liuxiangdong.jsonview.entry.JsonEntry;
+import com.liuxiangdong.jsonview.entry.JsonIntegerEntry;
+import com.liuxiangdong.jsonview.entry.JsonLongEntry;
+import com.liuxiangdong.jsonview.entry.JsonNullEntry;
 import com.liuxiangdong.jsonview.entry.JsonObjectEntry;
+import com.liuxiangdong.jsonview.entry.JsonStringEntry;
+import com.liuxiangdong.jsonview.entry.converter.JsonArrayEntryConverter;
+import com.liuxiangdong.jsonview.entry.converter.JsonBooleanEntryConverter;
+import com.liuxiangdong.jsonview.entry.converter.JsonDoubleEntryConverter;
+import com.liuxiangdong.jsonview.entry.converter.JsonEntryConverter;
+import com.liuxiangdong.jsonview.entry.converter.JsonEntryConverterRegistry;
+import com.liuxiangdong.jsonview.entry.converter.JsonIntegerEntryConverter;
+import com.liuxiangdong.jsonview.entry.converter.JsonLongEntryConverter;
+import com.liuxiangdong.jsonview.entry.converter.JsonNullEntryConverter;
+import com.liuxiangdong.jsonview.entry.converter.JsonObjectEntryConverter;
+import com.liuxiangdong.jsonview.entry.converter.JsonStringEntryConverter;
 import com.liuxiangdong.jsonview.vm.JsonViewModel;
 
 import org.json.JSONArray;
@@ -62,6 +79,11 @@ public class JsonView extends RecyclerView implements JsonCompoundEntry.OnStateC
      */
     private ConfigurationProvider mConfigurationProvider;
 
+    /**
+     * {@link JsonEntryConverterRegistry}
+     */
+    private final JsonEntryConverterRegistry mJsonEntryConverterRegistry = new JsonEntryConverterRegistry();
+
     public JsonView(@NonNull Context context) {
         super(context);
         init(context);
@@ -78,13 +100,42 @@ public class JsonView extends RecyclerView implements JsonCompoundEntry.OnStateC
     }
 
     private void init(Context context) {
+        registerConverters();
         //Display the Json list as a linear vertical list.
         super.setLayoutManager(new HorizontalScrollLinearLayoutManager(context));
+    }
+
+    /**
+     * Register all the basic {@link JsonEntryConverter}s.
+     */
+    @SuppressWarnings("OverlyCoupledMethod")
+    private void registerConverters() {
+        //primitive types
+        registerJsonEntryConverter(JsonBooleanEntry.class, new JsonBooleanEntryConverter());
+        registerJsonEntryConverter(JsonDoubleEntry.class, new JsonDoubleEntryConverter());
+        registerJsonEntryConverter(JsonIntegerEntry.class, new JsonIntegerEntryConverter());
+        registerJsonEntryConverter(JsonLongEntry.class, new JsonLongEntryConverter());
+        registerJsonEntryConverter(JsonNullEntry.class, new JsonNullEntryConverter());
+        registerJsonEntryConverter(JsonStringEntry.class, new JsonStringEntryConverter());
+
+        //compound types
+        registerJsonEntryConverter(JsonArrayEntry.class, new JsonArrayEntryConverter());
+        registerJsonEntryConverter(JsonObjectEntry.class, new JsonObjectEntryConverter());
     }
 
     @Override
     public void setLayoutManager(@Nullable LayoutManager layout) {
         throw new IllegalStateException("LayoutManager cannot be changed.");
+    }
+
+    /**
+     * Provide a way to register a custom {@link JsonEntryConverter}.
+     * @param clazz
+     * @param converter
+     * @param <T>
+     */
+    public <T extends JsonEntry<?>> void registerJsonEntryConverter(Class<T> clazz, JsonEntryConverter<T> converter) {
+        mJsonEntryConverterRegistry.registerJsonEntryConverter(clazz, converter);
     }
 
     /**
@@ -112,7 +163,7 @@ public class JsonView extends RecyclerView implements JsonCompoundEntry.OnStateC
      */
     public void setJsonObject(JSONObject jsonObject) {
         if (jsonObject != null) {
-            mJsonEntryRoot = new JsonObjectEntry("", jsonObject, 0, 0);
+            mJsonEntryRoot = new JsonObjectEntry("", jsonObject, 0, 0, mJsonEntryConverterRegistry);
             initJsonItemRoot();
         }
     }
@@ -124,7 +175,7 @@ public class JsonView extends RecyclerView implements JsonCompoundEntry.OnStateC
      */
     public void setJsonArray(JSONArray jsonArray) {
         if (jsonArray != null) {
-            mJsonEntryRoot = new JsonArrayEntry("", jsonArray, 0, 0);
+            mJsonEntryRoot = new JsonArrayEntry("", jsonArray, 0, 0, mJsonEntryConverterRegistry);
             initJsonItemRoot();
         }
     }

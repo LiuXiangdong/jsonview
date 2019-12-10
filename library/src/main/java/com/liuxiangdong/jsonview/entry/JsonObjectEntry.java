@@ -15,22 +15,21 @@
  */
 package com.liuxiangdong.jsonview.entry;
 
+import com.liuxiangdong.jsonview.entry.converter.JsonEntryConverterRegistry;
+import com.liuxiangdong.jsonview.vm.JsonViewModel;
+
 import org.json.JSONObject;
 
 import java.util.Iterator;
-
-import com.liuxiangdong.jsonview.vm.JsonObjectBeginViewModel;
-import com.liuxiangdong.jsonview.vm.JsonObjectCollapsedViewModel;
-import com.liuxiangdong.jsonview.vm.JsonObjectEndViewModel;
-import com.liuxiangdong.jsonview.vm.JsonViewModel;
+import java.util.List;
 
 /**
  * A JSONObject value entry.
  */
 public class JsonObjectEntry extends JsonCompoundEntry<JSONObject> {
 
-    public JsonObjectEntry(String key, JSONObject value, int depth, int index) {
-        super(key, value, depth, index);
+    public JsonObjectEntry(String key, JSONObject value, int depth, int index, JsonEntryConverterRegistry registry) {
+        super(key, value, depth, index, registry);
     }
 
     @Override
@@ -40,7 +39,7 @@ public class JsonObjectEntry extends JsonCompoundEntry<JSONObject> {
         int index = 0;
         while (keys.hasNext()) {
             String k = keys.next();
-            JsonEntry<?> child = JsonEntryFactory.createJsonEntry(k, jsonObject.opt(k), getDepth() + 1, index);
+            JsonEntry<?> child = createJsonEntry(k, jsonObject.opt(k), index);
             if (child != null) {
                 addChild(child);
             }
@@ -49,22 +48,12 @@ public class JsonObjectEntry extends JsonCompoundEntry<JSONObject> {
     }
 
     @Override
-    public JsonViewModel provideExpandedBeginViewModel() {
-        return new JsonObjectBeginViewModel(getKey(), this, getDepth(), getParentEntryCount(), getIndex());
-    }
-
-    @Override
-    public JsonViewModel provideExpandedEndViewModel() {
-        return new JsonObjectEndViewModel(getDepth(), getParentEntryCount(), getIndex());
-    }
-
-    @Override
-    public JsonViewModel provideCollapsedViewModel() {
-        return new JsonObjectCollapsedViewModel(getKey(), this, getDepth(), getParentEntryCount(), getIndex());
-    }
-
-    @Override
     public int getEntryCount() {
         return getValue().length();
+    }
+
+    @Override
+    protected List<? extends JsonViewModel> provideViewModels() {
+        return getRegistry().getJsonEntryConverter(JsonObjectEntry.class).convert(this);
     }
 }

@@ -15,12 +15,14 @@
  */
 package com.liuxiangdong.jsonview.entry;
 
+import android.support.annotation.Nullable;
+
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import com.liuxiangdong.jsonview.ConfigurationProvider;
 import com.liuxiangdong.jsonview.OnCopyJsonStringListener;
+import com.liuxiangdong.jsonview.entry.converter.JsonEntryConverterRegistry;
 import com.liuxiangdong.jsonview.vm.JsonViewModel;
 
 /**
@@ -58,8 +60,12 @@ public abstract class JsonCompoundEntry<T> extends JsonEntry<T> implements JsonP
      */
     private ConfigurationProvider provider;
 
-    JsonCompoundEntry(String key, T value, int depth, int index) {
-        super(key, value, depth, index);
+    JsonCompoundEntry(String key, T value, int depth, int index, JsonEntryConverterRegistry registry) {
+        super(key, value, depth, index, registry);
+    }
+
+    JsonEntry<?> createJsonEntry(String key, Object value, int index) {
+        return JsonEntryFactory.createJsonEntry(key, value, getDepth() + 1, index, getRegistry());
     }
 
     /**
@@ -206,6 +212,18 @@ public abstract class JsonCompoundEntry<T> extends JsonEntry<T> implements JsonP
      */
     protected abstract void inflateChildren();
 
+    public int getChildCount() {
+        return children == null ? 0 : children.size();
+    }
+
+    @Nullable
+    public JsonEntry<?> getChildAt(int position) {
+        if (position >= 0 && position < getChildCount()) {
+            return children.get(position);
+        }
+        return null;
+    }
+
     @Override
     public void invalidateViewModels() {
         viewModels = null;
@@ -213,59 +231,6 @@ public abstract class JsonCompoundEntry<T> extends JsonEntry<T> implements JsonP
             getParent().invalidateViewModels();
         }
     }
-
-    @Override
-    public List<JsonViewModel> getViewModels() {
-        if (collapsed) {
-            return getCollapsedViewModels();
-        } else {
-            return super.getViewModels();
-        }
-    }
-
-    /**
-     * Provide the {@link JsonViewModel}s when it is collapsed.
-     * @return
-     */
-    private List<JsonViewModel> getCollapsedViewModels() {
-        if (collapsedViewModels == null) {
-            collapsedViewModels = new ArrayList<>();
-            JsonViewModel viewModel = provideCollapsedViewModel();
-            if (viewModel != null) {
-                collapsedViewModels.add(viewModel);
-            }
-        }
-        return Collections.unmodifiableList(collapsedViewModels);
-    }
-
-    @Override
-    protected List<? extends JsonViewModel> provideViewModels() {
-        List<JsonViewModel> result = new ArrayList<>();
-        result.add(provideExpandedBeginViewModel());
-        for (int i = 0; i < children.size(); i++) {
-            result.addAll(children.get(i).getViewModels());
-        }
-        result.add(provideExpandedEndViewModel());
-        return result;
-    }
-
-    /**
-     * Provide the opening {@link JsonViewModel} when it is expanded.
-     * @return
-     */
-    public abstract JsonViewModel provideExpandedBeginViewModel();
-
-    /**
-     * Provide the closing {@link JsonViewModel} when it is expanded.
-     * @return
-     */
-    public abstract JsonViewModel provideExpandedEndViewModel();
-
-    /**
-     * Provide the collapsed {@link JsonViewModel} when it is collapsed.
-     * @return
-     */
-    public abstract JsonViewModel provideCollapsedViewModel();
 
     /**
      * When the compound entry is expanded or collapsed, it's a state change.

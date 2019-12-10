@@ -15,11 +15,12 @@
  */
 package com.liuxiangdong.jsonview.entry;
 
+import com.liuxiangdong.jsonview.entry.converter.JsonEntryConverterRegistry;
+import com.liuxiangdong.jsonview.vm.JsonViewModel;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import com.liuxiangdong.jsonview.vm.JsonViewModel;
 
 /**
  * This class represents an entry in a Json. Basically it can be a key-value entry, or
@@ -27,7 +28,7 @@ import com.liuxiangdong.jsonview.vm.JsonViewModel;
  * that represents the mapping of the entry and the item(s) of the {@link com.liuxiangdong.jsonview.JsonView}.
  * @param <T> The type of the value
  */
-public class JsonEntry<T> {
+public abstract class JsonEntry<T> {
     /**
      * The key of the entry
      */
@@ -53,11 +54,18 @@ public class JsonEntry<T> {
      */
     private JsonParent parent;
 
-    JsonEntry(String key, T value, int depth, int index) {
+    /**
+     * A {@link JsonEntryConverterRegistry} where a {@link com.liuxiangdong.jsonview.entry.converter.JsonEntryConverter}
+     * can be retrieved.
+     */
+    private final JsonEntryConverterRegistry registry;
+
+    JsonEntry(String key, T value, int depth, int index, JsonEntryConverterRegistry registry) {
         this.key = key;
         this.value = value;
         this.depth = depth;
         this.index = index;
+        this.registry = registry;
     }
 
     void setParent(JsonParent parent) {
@@ -99,7 +107,7 @@ public class JsonEntry<T> {
      * This method returns the number of the entries in the parent.
      * @return
      */
-    int getParentEntryCount() {
+    public int getParentEntryCount() {
         if (parent != null) {
             return parent.getEntryCount();
         }
@@ -110,7 +118,9 @@ public class JsonEntry<T> {
      * Subclass need to override this method to provide the corresponding {@link JsonViewModel}(s).
      * @return
      */
-    protected List<? extends JsonViewModel> provideViewModels() {
-        return Collections.emptyList();
+    protected abstract List<? extends JsonViewModel> provideViewModels();
+
+    public JsonEntryConverterRegistry getRegistry() {
+        return registry;
     }
 }

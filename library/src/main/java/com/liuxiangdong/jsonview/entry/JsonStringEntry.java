@@ -15,23 +15,21 @@
  */
 package com.liuxiangdong.jsonview.entry;
 
-import java.util.Collections;
-import java.util.List;
-
-import com.liuxiangdong.jsonview.vm.JsonStringViewModel;
+import com.liuxiangdong.jsonview.entry.converter.JsonEntryConverterRegistry;
 import com.liuxiangdong.jsonview.vm.JsonViewModel;
+
+import java.util.List;
 
 /**
  * A string value entry.
  */
-class JsonStringEntry extends JsonKeyValueEntry<String> {
-
-    JsonStringEntry(String key, String value, int depth, int index) {
-        super(key, value, depth, index);
+public class JsonStringEntry extends JsonKeyValueEntry<String> {
+    JsonStringEntry(String key, String value, int depth, int index, JsonEntryConverterRegistry registry) {
+        super(key, value, depth, index, registry);
     }
 
     @Override
     protected List<? extends JsonViewModel> provideViewModels() {
-        return Collections.singletonList(new JsonStringViewModel(getKey(), getValue(), getDepth(), getParentEntryCount(), getIndex()));
+        return getRegistry().getJsonEntryConverter(JsonStringEntry.class).convert(this);
     }
 }

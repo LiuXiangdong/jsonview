@@ -13,25 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.liuxiangdong.jsonview.entry;
+package com.liuxiangdong.jsonview.entry.converter;
 
-import com.liuxiangdong.jsonview.entry.converter.JsonEntryConverterRegistry;
+import com.liuxiangdong.jsonview.entry.JsonNullEntry;
+import com.liuxiangdong.jsonview.vm.JsonNullViewModel;
 import com.liuxiangdong.jsonview.vm.JsonViewModel;
 
-import org.json.JSONObject;
-
+import java.util.Collections;
 import java.util.List;
 
 /**
- * A {@link JSONObject#NULL} value entry.
+ * A converter that converts a {@link JsonNullEntry} to a list of {@link JsonViewModel}s.
  */
-public class JsonNullEntry extends JsonKeyValueEntry<Object> {
-    JsonNullEntry(String key, int depth, int index, JsonEntryConverterRegistry registry) {
-        super(key, JSONObject.NULL, depth, index, registry);
-    }
-
+public class JsonNullEntryConverter implements JsonEntryConverter<JsonNullEntry> {
     @Override
-    protected List<? extends JsonViewModel> provideViewModels() {
-        return getRegistry().getJsonEntryConverter(JsonNullEntry.class).convert(this);
+    public List<? extends JsonViewModel> convert(JsonNullEntry jsonEntry) {
+        return Collections.singletonList(new JsonNullViewModel(jsonEntry.getKey(), jsonEntry.getValue(), jsonEntry.getDepth(), jsonEntry.getParentEntryCount(), jsonEntry.getIndex()));
     }
 }

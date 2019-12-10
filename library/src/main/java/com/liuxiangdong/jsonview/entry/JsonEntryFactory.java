@@ -17,45 +17,47 @@ package com.liuxiangdong.jsonview.entry;
 
 import android.support.annotation.Nullable;
 
+import com.liuxiangdong.jsonview.entry.converter.JsonEntryConverterRegistry;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
  * Used when building the {@link JsonEntry} tree through a Json.
  */
-final class JsonEntryFactory {
+public final class JsonEntryFactory {
     private JsonEntryFactory() {}
 
     @Nullable
-    static JsonEntry<?> createJsonEntry(String key, Object value, int depth, int index) {
+    static JsonEntry<?> createJsonEntry(String key, Object value, int depth, int index, JsonEntryConverterRegistry registry) {
         if (value == null) {
             return null;
         }
         if (value instanceof JSONObject) {
             JSONObject jsonObject = (JSONObject) value;
-            return new JsonObjectEntry(key, jsonObject, depth, index);
+            return new JsonObjectEntry(key, jsonObject, depth, index, registry);
         }
         if (value instanceof JSONArray) {
             JSONArray jsonArray = (JSONArray) value;
-            return new JsonArrayEntry(key, jsonArray, depth, index);
+            return new JsonArrayEntry(key, jsonArray, depth, index, registry);
         }
         if (value == JSONObject.NULL) {
-            return new JsonNullEntry(key, depth, index);
+            return new JsonNullEntry(key, depth, index, registry);
         }
         if (value instanceof Boolean) {
-            return new JsonBooleanEntry(key, (Boolean) value, depth, index);
+            return new JsonBooleanEntry(key, (Boolean) value, depth, index, registry);
         }
         if (value instanceof Integer) {
-            return new JsonIntegerEntry(key, (Integer) value, depth, index);
+            return new JsonIntegerEntry(key, (Integer) value, depth, index, registry);
         }
         if (value instanceof Long) {
-            return new JsonLongEntry(key, (Long) value, depth, index);
+            return new JsonLongEntry(key, (Long) value, depth, index, registry);
         }
         if (value instanceof Double) {
-            return new JsonDoubleEntry(key, (Double) value, depth, index);
+            return new JsonDoubleEntry(key, (Double) value, depth, index, registry);
         }
         if (value instanceof String) {
-            return new JsonStringEntry(key, value.toString(), depth, index);
+            return new JsonStringEntry(key, value.toString(), depth, index, registry);
         }
         return null;
     }
