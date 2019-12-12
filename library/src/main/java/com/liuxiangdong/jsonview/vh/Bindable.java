@@ -13,15 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.liuxiangdong.jsonview.vm;
+package com.liuxiangdong.jsonview.vh;
 
-import com.liuxiangdong.jsonview.entry.JsonObjectEntry;
+import com.liuxiangdong.jsonview.vm.JsonViewModel;
 
 /**
- * An opening JSONObject item.
+ * Created at 2019-12-10 21:22
+ *
+ * @author liuxd
  */
-public class JsonObjectBeginViewModel extends JsonObjectViewModel {
-    public JsonObjectBeginViewModel(String key, JsonObjectEntry compoundEntry, int depth, int parentEntryCount, int index) {
-        super(key, compoundEntry, depth, parentEntryCount, index);
-    }
+public interface Bindable<T extends JsonViewModel> {
+    void onBind(T jsonViewModel);
 }

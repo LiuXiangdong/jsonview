@@ -23,7 +23,7 @@ import com.liuxiangdong.jsonview.entry.JsonObjectEntry;
 /**
  * A collapsed JSONObject item.
  */
-public class JsonObjectCollapsedViewModel extends JsonCollapsedViewModel<JsonObjectEntry> {
+public class JsonObjectCollapsedViewModel extends JsonObjectViewModel implements ICollapsedInfo {
 
     public JsonObjectCollapsedViewModel(String key, JsonObjectEntry compoundEntry, int depth, int parentEntryCount, int index) {
         super(key, compoundEntry, depth, parentEntryCount, index);

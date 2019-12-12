@@ -13,29 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.liuxiangdong.jsonview.vh;
+package com.liuxiangdong.jsonview.renderer;
 
-import android.content.Context;
-import android.widget.TextView;
+import android.support.annotation.NonNull;
+import android.view.ViewGroup;
 
 import com.liuxiangdong.jsonview.ElementProvider;
+import com.liuxiangdong.jsonview.vh.JsonIntegerValueViewHolder;
 import com.liuxiangdong.jsonview.vm.JsonIntegerViewModel;
 
 /**
- * The {@link android.support.v7.widget.RecyclerView.ViewHolder} for
- * {@link com.liuxiangdong.jsonview.vm.JsonIntegerViewModel}.
+ * A {@link Renderer} for a {@link JsonIntegerViewModel}.
  */
-public class JsonIntegerValueViewHolder<T extends JsonIntegerViewModel> extends JsonKeyValueViewHolder<T> {
-    private final TextView value;
-    public JsonIntegerValueViewHolder(Context context, ElementProvider elementProvider) {
-        super(context, elementProvider);
-        value = elementProvider.createIntegerValueView(linearLayout);
-        linearLayout.addView(value);
+public class JsonIntegerRenderer extends Renderer<JsonIntegerViewModel, JsonIntegerValueViewHolder<JsonIntegerViewModel>> {
+    @Override
+    public Class<JsonIntegerViewModel> getViewModelClass() {
+        return JsonIntegerViewModel.class;
     }
 
     @Override
-    public void onBind(T t) {
-        super.onBind(t);
-        value.setText(t.getValueText(value.getContext()));
+    public JsonIntegerValueViewHolder<JsonIntegerViewModel> onCreateViewHolder(@NonNull ViewGroup viewGroup, ElementProvider elementProvider) {
+        return new JsonIntegerValueViewHolder<>(viewGroup.getContext(), elementProvider);
     }
 }

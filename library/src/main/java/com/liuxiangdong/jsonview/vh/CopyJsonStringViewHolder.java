@@ -26,7 +26,7 @@ import com.liuxiangdong.jsonview.vm.JsonCompoundViewModel;
  * of copying the Json value of a {@link com.liuxiangdong.jsonview.entry.JsonCompoundEntry}.
  * @param <T>
  */
-public class CopyJsonStringViewHolder<T extends JsonCompoundViewModel<?>> extends ValidViewHolder<T> implements View.OnClickListener {
+public class CopyJsonStringViewHolder<T extends JsonCompoundViewModel<?>> extends JsonViewHolder<T> implements View.OnClickListener {
     final View copyView;
 
     CopyJsonStringViewHolder(Context context, ElementProvider elementProvider) {

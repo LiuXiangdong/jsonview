@@ -26,7 +26,7 @@ import com.liuxiangdong.jsonview.vm.JsonArrayEndViewModel;
  * The {@link android.support.v7.widget.RecyclerView.ViewHolder} for
  * {@link JsonArrayEndViewModel}.
  */
-public class JsonArrayEndViewHolder extends ValidViewHolder<JsonArrayEndViewModel> {
+public class JsonArrayEndViewHolder<T extends JsonArrayEndViewModel> extends JsonViewHolder<T> {
     public JsonArrayEndViewHolder(Context context, ElementProvider elementProvider) {
         super(context, elementProvider);
         TextView rightBracket = elementProvider.createClosingBracketView(linearLayout);

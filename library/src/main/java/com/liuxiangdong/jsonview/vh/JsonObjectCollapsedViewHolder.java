@@ -16,7 +16,6 @@
 package com.liuxiangdong.jsonview.vh;
 
 import android.content.Context;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
@@ -27,15 +26,12 @@ import com.liuxiangdong.jsonview.vm.JsonObjectCollapsedViewModel;
  * The {@link android.support.v7.widget.RecyclerView.ViewHolder} for
  * {@link JsonObjectCollapsedViewModel}.
  */
-public class JsonObjectCollapsedViewHolder extends CopyJsonStringViewHolder<JsonObjectCollapsedViewModel> implements View.OnLongClickListener {
-    private final TextView keyTextView;
+public class JsonObjectCollapsedViewHolder<T extends JsonObjectCollapsedViewModel> extends JsonObjectViewHolder<T> implements View.OnLongClickListener {
     private final View expandView;
     private final TextView collapsedInfo;
 
     public JsonObjectCollapsedViewHolder(Context context, ElementProvider elementProvider) {
         super(context, elementProvider);
-        keyTextView = elementProvider.createKeyView(linearLayout);
-        linearLayout.addView(keyTextView);
         expandView = elementProvider.createExpandView(linearLayout);
         if (expandView != null) {
             linearLayout.addView(expandView);
@@ -50,16 +46,9 @@ public class JsonObjectCollapsedViewHolder extends CopyJsonStringViewHolder<Json
     }
 
     @Override
-    public void onBind(JsonObjectCollapsedViewModel jsonObjectCollapsedViewModel) {
-        super.onBind(jsonObjectCollapsedViewModel);
-        CharSequence key = jsonObjectCollapsedViewModel.getKey();
-        if (TextUtils.isEmpty(key)) {
-            keyTextView.setVisibility(View.GONE);
-        } else {
-            keyTextView.setText(key);
-            keyTextView.setVisibility(View.VISIBLE);
-        }
-        collapsedInfo.setText(jsonObjectCollapsedViewModel.getCollapsedInfo(collapsedInfo.getContext()));
+    public void onBind(T t) {
+        super.onBind(t);
+        collapsedInfo.setText(t.getCollapsedInfo(collapsedInfo.getContext()));
     }
 
     @Override

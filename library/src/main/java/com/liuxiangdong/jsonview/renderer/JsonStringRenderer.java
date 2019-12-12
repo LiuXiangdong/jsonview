@@ -13,29 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.liuxiangdong.jsonview.vh;
+package com.liuxiangdong.jsonview.renderer;
 
-import android.content.Context;
-import android.widget.TextView;
+import android.support.annotation.NonNull;
+import android.view.ViewGroup;
 
 import com.liuxiangdong.jsonview.ElementProvider;
+import com.liuxiangdong.jsonview.vh.JsonStringValueViewHolder;
 import com.liuxiangdong.jsonview.vm.JsonStringViewModel;
 
 /**
- * The {@link android.support.v7.widget.RecyclerView.ViewHolder} for
- * {@link com.liuxiangdong.jsonview.vm.JsonStringViewModel}.
+ * A {@link Renderer} for a {@link JsonStringViewModel}.
  */
-public class JsonStringValueViewHolder<T extends JsonStringViewModel> extends JsonKeyValueViewHolder<T> {
-    private final TextView value;
-    public JsonStringValueViewHolder(Context context, ElementProvider elementProvider) {
-        super(context, elementProvider);
-        value = elementProvider.createStringValueView(linearLayout);
-        linearLayout.addView(value);
+public class JsonStringRenderer extends Renderer<JsonStringViewModel, JsonStringValueViewHolder<JsonStringViewModel>> {
+    @Override
+    public Class<JsonStringViewModel> getViewModelClass() {
+        return JsonStringViewModel.class;
     }
 
     @Override
-    public void onBind(T t) {
-        super.onBind(t);
-        value.setText(t.getValueText(value.getContext()));
+    public JsonStringValueViewHolder<JsonStringViewModel> onCreateViewHolder(@NonNull ViewGroup viewGroup, ElementProvider elementProvider) {
+        return new JsonStringValueViewHolder<>(viewGroup.getContext(), elementProvider);
     }
 }

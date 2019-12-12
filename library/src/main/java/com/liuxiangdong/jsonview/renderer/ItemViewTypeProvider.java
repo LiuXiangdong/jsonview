@@ -13,24 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.liuxiangdong.jsonview.vh;
-
-import android.content.Context;
-import android.support.annotation.NonNull;
-import android.widget.Space;
-
-import com.liuxiangdong.jsonview.vm.JsonViewModel;
+package com.liuxiangdong.jsonview.renderer;
 
 /**
- * An invalid {@link android.support.v7.widget.RecyclerView.ViewHolder}.
+ * A helper class that generates the view type.
  */
-public class InvalidViewHolder extends JsonViewHolder<JsonViewModel> {
-    public InvalidViewHolder(@NonNull Context context) {
-        super(new Space(context));
-    }
+final class ItemViewTypeProvider {
+    //starting from 1, assumes that 0 is an invalid view type
+    private static int sItemViewType = 1;
 
-    @Override
-    public void onBind(JsonViewModel jsonViewModel) {
+    static final int INVALID_VIEW_TYPE = 0;
 
+    static int nextItemViewType() {
+        return sItemViewType++;
     }
 }

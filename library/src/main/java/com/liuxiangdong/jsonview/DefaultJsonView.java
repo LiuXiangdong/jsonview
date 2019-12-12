@@ -20,14 +20,22 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 
+import com.liuxiangdong.jsonview.renderer.Renderer;
+import com.liuxiangdong.jsonview.vh.JsonViewHolder;
+import com.liuxiangdong.jsonview.vm.JsonViewModel;
+
 /**
  * A default implementation of {@link JsonView} that provides functions of expanding
  * a JSONObject or a JSONArray, collapsing a JSONObject or a JSONArray and copy the string
  * value of a JSONObject or a JSONArray.
  * Note: You can long click the expanding view to expand the JSONObject or JSONArray and all
  * its children, and the same with collapsing view.
+ * The appearance and behavior of DefaultJsonView can be affected by {@link ElementProvider}
+ * and {@link Renderer}. Hence you can set an {@link ElementProvider} to provide your own
+ * appearance or furthermore register a {@link Renderer} to provide your own ViewHolder.
  */
 public class DefaultJsonView extends JsonView {
+    private DefaultJsonAdapter mDefaultJsonAdapter;
     public DefaultJsonView(@NonNull Context context) {
         super(context);
         init();
@@ -44,7 +52,12 @@ public class DefaultJsonView extends JsonView {
     }
 
     private void init() {
-        setAdapter(new DefaultJsonAdapter());
+        mDefaultJsonAdapter = new DefaultJsonAdapter();
+        setAdapter(mDefaultJsonAdapter);
+    }
+
+    public <VM extends JsonViewModel, VH extends JsonViewHolder<VM>> void registerRender(Renderer<VM, VH> renderer) {
+        mDefaultJsonAdapter.registerRender(renderer);
     }
 
     /**

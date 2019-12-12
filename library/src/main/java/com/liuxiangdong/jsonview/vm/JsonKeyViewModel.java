@@ -33,9 +33,14 @@ public class JsonKeyViewModel extends JsonViewModel {
      * @return
      */
     public CharSequence getKey() {
+        return key;
+    }
+
+    public CharSequence getKeyText() {
         if (TextUtils.isEmpty(key)) {
-            return key;
+            return "";
         }
+
         return '"' + key + '"';
     }
 }

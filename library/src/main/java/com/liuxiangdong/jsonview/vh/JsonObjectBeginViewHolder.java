@@ -16,7 +16,6 @@
 package com.liuxiangdong.jsonview.vh;
 
 import android.content.Context;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
@@ -28,14 +27,11 @@ import com.liuxiangdong.jsonview.vm.JsonObjectBeginViewModel;
  * The {@link android.support.v7.widget.RecyclerView.ViewHolder} for
  * {@link JsonObjectBeginViewModel}.
  */
-public class JsonObjectBeginViewHolder extends CopyJsonStringViewHolder<JsonObjectBeginViewModel> implements View.OnLongClickListener {
-    private final TextView keyTextView;
+public class JsonObjectBeginViewHolder<T extends JsonObjectBeginViewModel> extends JsonObjectViewHolder<T> implements View.OnLongClickListener {
     private final View collapseView;
 
     public JsonObjectBeginViewHolder(Context context, ElementProvider elementProvider) {
         super(context, elementProvider);
-        keyTextView = elementProvider.createKeyView(linearLayout);
-        linearLayout.addView(keyTextView);
         collapseView = elementProvider.createCollapseView(linearLayout);
         if (collapseView != null) {
             linearLayout.addView(collapseView);
@@ -49,18 +45,6 @@ public class JsonObjectBeginViewHolder extends CopyJsonStringViewHolder<JsonObje
         if (leftBrace != null) {
             leftBrace.setText(R.string.json_view_opening_brace);
             linearLayout.addView(leftBrace);
-        }
-    }
-
-    @Override
-    public void onBind(JsonObjectBeginViewModel jsonObjectBeginViewModel) {
-        super.onBind(jsonObjectBeginViewModel);
-        CharSequence key = jsonObjectBeginViewModel.getKey();
-        if (TextUtils.isEmpty(key)) {
-            keyTextView.setVisibility(View.GONE);
-        } else {
-            keyTextView.setText(key);
-            keyTextView.setVisibility(View.VISIBLE);
         }
     }
 

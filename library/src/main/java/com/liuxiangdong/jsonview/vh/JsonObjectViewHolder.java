@@ -19,23 +19,24 @@ import android.content.Context;
 import android.widget.TextView;
 
 import com.liuxiangdong.jsonview.ElementProvider;
-import com.liuxiangdong.jsonview.vm.JsonIntegerViewModel;
+import com.liuxiangdong.jsonview.vm.JsonObjectViewModel;
 
 /**
  * The {@link android.support.v7.widget.RecyclerView.ViewHolder} for
- * {@link com.liuxiangdong.jsonview.vm.JsonIntegerViewModel}.
+ * {@link JsonObjectViewModel}.
  */
-public class JsonIntegerValueViewHolder<T extends JsonIntegerViewModel> extends JsonKeyValueViewHolder<T> {
-    private final TextView value;
-    public JsonIntegerValueViewHolder(Context context, ElementProvider elementProvider) {
+public class JsonObjectViewHolder<T extends JsonObjectViewModel> extends CopyJsonStringViewHolder<T> {
+    private final TextView keyTextView;
+
+    JsonObjectViewHolder(Context context, ElementProvider elementProvider) {
         super(context, elementProvider);
-        value = elementProvider.createIntegerValueView(linearLayout);
-        linearLayout.addView(value);
+        keyTextView = elementProvider.createKeyView(linearLayout);
+        linearLayout.addView(keyTextView);
     }
 
     @Override
     public void onBind(T t) {
         super.onBind(t);
-        value.setText(t.getValueText(value.getContext()));
+        keyTextView.setText(t.getKeyText());
     }
 }

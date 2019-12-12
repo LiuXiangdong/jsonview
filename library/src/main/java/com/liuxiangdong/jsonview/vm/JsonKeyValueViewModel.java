@@ -15,6 +15,8 @@
  */
 package com.liuxiangdong.jsonview.vm;
 
+import android.content.Context;
+
 /**
  * A key-value item.
  * @param <T>
@@ -33,5 +35,9 @@ public class JsonKeyValueViewModel<T> extends JsonKeyViewModel {
      */
     public T getValue() {
         return value;
+    }
+
+    public CharSequence getValueText(Context context) {
+        return String.valueOf(value);
     }
 }

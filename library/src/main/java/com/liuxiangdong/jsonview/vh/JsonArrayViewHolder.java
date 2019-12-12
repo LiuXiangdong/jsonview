@@ -16,26 +16,34 @@
 package com.liuxiangdong.jsonview.vh;
 
 import android.content.Context;
+import android.text.TextUtils;
+import android.view.View;
 import android.widget.TextView;
 
 import com.liuxiangdong.jsonview.ElementProvider;
-import com.liuxiangdong.jsonview.vm.JsonIntegerViewModel;
+import com.liuxiangdong.jsonview.vm.JsonArrayViewModel;
 
 /**
  * The {@link android.support.v7.widget.RecyclerView.ViewHolder} for
- * {@link com.liuxiangdong.jsonview.vm.JsonIntegerViewModel}.
+ * {@link JsonArrayViewModel}.
  */
-public class JsonIntegerValueViewHolder<T extends JsonIntegerViewModel> extends JsonKeyValueViewHolder<T> {
-    private final TextView value;
-    public JsonIntegerValueViewHolder(Context context, ElementProvider elementProvider) {
+public class JsonArrayViewHolder<T extends JsonArrayViewModel> extends CopyJsonStringViewHolder<T> {
+    private final TextView keyTextView;
+    JsonArrayViewHolder(Context context, ElementProvider elementProvider) {
         super(context, elementProvider);
-        value = elementProvider.createIntegerValueView(linearLayout);
-        linearLayout.addView(value);
+        keyTextView = elementProvider.createKeyView(linearLayout);
+        linearLayout.addView(keyTextView);
     }
 
     @Override
     public void onBind(T t) {
         super.onBind(t);
-        value.setText(t.getValueText(value.getContext()));
+        CharSequence key = t.getKeyText();
+        if (TextUtils.isEmpty(key)) {
+            keyTextView.setVisibility(View.GONE);
+        } else {
+            keyTextView.setText(key);
+            keyTextView.setVisibility(View.VISIBLE);
+        }
     }
 }

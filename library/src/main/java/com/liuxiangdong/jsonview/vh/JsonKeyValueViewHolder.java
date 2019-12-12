@@ -25,7 +25,7 @@ import com.liuxiangdong.jsonview.vm.JsonKeyValueViewModel;
  * The {@link android.support.v7.widget.RecyclerView.ViewHolder} for
  * {@link JsonKeyValueViewModel}.
  */
-public class JsonKeyValueViewHolder extends ValidViewHolder<JsonKeyValueViewModel<?>> {
+public class JsonKeyValueViewHolder<T extends JsonKeyValueViewModel<?>> extends JsonViewHolder<T> {
     private final TextView key;
 
     JsonKeyValueViewHolder(Context context, ElementProvider elementProvider) {
@@ -35,8 +35,8 @@ public class JsonKeyValueViewHolder extends ValidViewHolder<JsonKeyValueViewMode
     }
 
     @Override
-    public void onBind(JsonKeyValueViewModel<?> jsonKeyValueViewModel) {
-        super.onBind(jsonKeyValueViewModel);
-        key.setText(jsonKeyValueViewModel.getKey());
+    public void onBind(T t) {
+        super.onBind(t);
+        key.setText(t.getKeyText());
     }
 }
