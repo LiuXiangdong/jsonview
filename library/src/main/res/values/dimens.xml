@@ -16,5 +16,9 @@
     <dimen name="json_view_primary_item_height">30dp</dimen>
     <dimen name="json_view_primary_icon_padding">5dp</dimen>
 
+    <dimen name="json_view_caption_text_size">12dp</dimen>
+
     <dimen name="json_view_indentation">30dp</dimen>
+    <dimen name="json_view_index_padding">2dp</dimen>
+    <dimen name="json_view_index_corner_radius">2dp</dimen>
 </resources>

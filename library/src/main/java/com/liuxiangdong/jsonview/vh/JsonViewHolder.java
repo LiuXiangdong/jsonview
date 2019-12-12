@@ -17,9 +17,12 @@ package com.liuxiangdong.jsonview.vh;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.Gravity;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.liuxiangdong.jsonview.ElementProvider;
 import com.liuxiangdong.jsonview.IndentationView;
@@ -37,10 +40,13 @@ public class JsonViewHolder<T extends JsonViewModel> extends RecyclerView.ViewHo
      */
     private T viewModel;
     private final IndentationView indentationView;
+    private final TextView indexView;
     final LinearLayout linearLayout;
+    private final ElementProvider elementProvider;
 
     JsonViewHolder(Context context, ElementProvider elementProvider) {
         super(new LinearLayout(context));
+        this.elementProvider = elementProvider;
         linearLayout = (LinearLayout) itemView;
         linearLayout.setLayoutParams(new RecyclerView.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         linearLayout.setOrientation(LinearLayout.HORIZONTAL);
@@ -51,6 +57,10 @@ public class JsonViewHolder<T extends JsonViewModel> extends RecyclerView.ViewHo
         indentationView.setLineWidth(elementProvider.indentationViewLineWidth(context));
         indentationView.setIndentation(elementProvider.indentationWidth(context));
         linearLayout.addView(indentationView);
+        indexView = elementProvider.createIndexView(linearLayout);
+        if (indexView != null) {
+            linearLayout.addView(indexView);
+        }
     }
 
     /**
@@ -61,6 +71,19 @@ public class JsonViewHolder<T extends JsonViewModel> extends RecyclerView.ViewHo
     public void onBind(T t) {
         viewModel = t;
         indentationView.setDepth(t.getDepth());
+        if (indexView != null) {
+            if (elementProvider.shouldDisplayIndex(itemView.getContext(), t)) {
+                CharSequence indexText = t.getIndexText();
+                if (!TextUtils.isEmpty(indexText)) {
+                    indexView.setText(t.getIndexText());
+                    indexView.setVisibility(View.VISIBLE);
+                } else {
+                    indexView.setVisibility(View.GONE);
+                }
+            } else {
+                indexView.setVisibility(View.GONE);
+            }
+        }
     }
 
     T getViewModel() {

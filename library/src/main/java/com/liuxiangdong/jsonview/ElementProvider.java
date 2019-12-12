@@ -23,6 +23,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.liuxiangdong.jsonview.vm.JsonViewModel;
+
 /**
  * An interface for customizing the appearance of the ViewHolder used in {@link DefaultJsonAdapter}.
  */
@@ -176,4 +178,23 @@ public interface ElementProvider {
      */
     @ColorInt
     int indentationViewLineColor(Context context);
+
+    /**
+     * The view that provides the function of displaying the index information of a
+     * {@link com.liuxiangdong.jsonview.entry.JsonEntry} within a
+     * {@link com.liuxiangdong.jsonview.entry.JsonCompoundEntry}.
+     * @param parent
+     * @return
+     */
+    @Nullable
+    TextView createIndexView(ViewGroup parent);
+
+    /**
+     * Denotes that whether the index of a {@link JsonViewModel} should be displayed.
+     * @param context
+     * @param viewModel
+     * @param <T>
+     * @return
+     */
+    <T extends JsonViewModel> boolean shouldDisplayIndex(Context context, T viewModel);
 }

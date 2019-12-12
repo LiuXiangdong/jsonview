@@ -17,7 +17,9 @@ package com.liuxiangdong.jsonview;
 
 import android.content.Context;
 import android.graphics.Typeface;
+import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewCompat;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
@@ -26,10 +28,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.liuxiangdong.jsonview.vm.JsonViewModel;
+
 /**
  * A default implementation of {@link ElementProvider}
  */
 public class DefaultElementProvider implements ElementProvider {
+    private static final int DISPLAYABLE_ENTRY_COUNT = 5;
     @Override
     public View createExpandView(ViewGroup parent) {
         Context context = parent.getContext();
@@ -175,5 +180,29 @@ public class DefaultElementProvider implements ElementProvider {
     @Override
     public int indentationViewLineColor(Context context) {
         return ContextCompat.getColor(context, R.color.json_view_key_color);
+    }
+
+    @Nullable
+    @Override
+    public TextView createIndexView(ViewGroup parent) {
+        Context context = parent.getContext();
+        TextView textView = new TextView(context);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        lp.rightMargin = context.getResources().getDimensionPixelSize(R.dimen.json_view_primary_margin_left);
+        lp.gravity = Gravity.CENTER_VERTICAL;
+        textView.setLayoutParams(lp);
+        textView.setMaxLines(1);
+        textView.setSingleLine(true);
+        textView.setTextColor(ContextCompat.getColor(context, R.color.json_view_index_text_color));
+        textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, context.getResources().getDimensionPixelSize(R.dimen.json_view_caption_text_size));
+        ViewCompat.setBackground(textView, ContextCompat.getDrawable(context, R.drawable.json_view_index_background));
+        int padding = context.getResources().getDimensionPixelSize(R.dimen.json_view_index_padding);
+        textView.setPadding(padding, padding, padding, padding);
+        return textView;
+    }
+
+    @Override
+    public <T extends JsonViewModel> boolean shouldDisplayIndex(Context context, T viewModel) {
+        return viewModel.getParentEntryCount() >= DISPLAYABLE_ENTRY_COUNT;
     }
 }

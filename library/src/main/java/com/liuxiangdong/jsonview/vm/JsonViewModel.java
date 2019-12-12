@@ -50,4 +50,8 @@ public class JsonViewModel {
     public int getIndex() {
         return index;
     }
+
+    public CharSequence getIndexText() {
+        return index + 1 + "/" + parentEntryCount;
+    }
 }

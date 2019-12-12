@@ -15,13 +15,18 @@
  */
 package com.liuxiangdong.jsonview.vm;
 
-import com.liuxiangdong.jsonview.entry.JsonArrayEntry;
+import com.liuxiangdong.jsonview.entry.JsonCompoundEntry;
 
 /**
- * A closing JSONArray item.
+ * A closing compound item.
  */
-public class JsonArrayEndViewModel extends JsonCompoundEndViewModel<JsonArrayEntry> {
-    public JsonArrayEndViewModel(String key, JsonArrayEntry compoundEntry, int depth, int parentEntryCount, int index) {
+public class JsonCompoundEndViewModel<T extends JsonCompoundEntry<?>> extends JsonCompoundViewModel<T> {
+    JsonCompoundEndViewModel(String key, T compoundEntry, int depth, int parentEntryCount, int index) {
         super(key, compoundEntry, depth, parentEntryCount, index);
+    }
+
+    @Override
+    public CharSequence getIndexText() {
+        return "";
     }
 }

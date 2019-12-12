@@ -15,11 +15,13 @@
  */
 package com.liuxiangdong.jsonview.vm;
 
+import com.liuxiangdong.jsonview.entry.JsonObjectEntry;
+
 /**
  * A closing JSONObject item.
  */
-public class JsonObjectEndViewModel extends JsonViewModel {
-    public JsonObjectEndViewModel(int depth, int parentEntryCount, int index) {
-        super(depth, parentEntryCount, index);
+public class JsonObjectEndViewModel extends JsonCompoundEndViewModel<JsonObjectEntry> {
+    public JsonObjectEndViewModel(String key, JsonObjectEntry compoundEntry, int depth, int parentEntryCount, int index) {
+        super(key, compoundEntry, depth, parentEntryCount, index);
     }
 }

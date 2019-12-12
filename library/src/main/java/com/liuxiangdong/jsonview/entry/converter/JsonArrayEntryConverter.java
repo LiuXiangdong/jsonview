@@ -32,7 +32,7 @@ public class JsonArrayEntryConverter extends JsonCompoundEntryConverter<JsonArra
 
     @Override
     public JsonViewModel provideExpandedEndViewModel(JsonArrayEntry jsonEntry) {
-        return new JsonArrayEndViewModel(jsonEntry.getDepth(), jsonEntry.getParentEntryCount(), jsonEntry.getIndex());
+        return new JsonArrayEndViewModel(jsonEntry.getKey(), jsonEntry, jsonEntry.getDepth(), jsonEntry.getParentEntryCount(), jsonEntry.getIndex());
     }
 
     @Override
