@@ -5,4 +5,6 @@
     <color name="json_view_collapsed_info_text_color">#BFBFBF</color>
     <color name="json_view_index_text_color">#FFFFFF</color>
     <color name="json_view_index_background_color">#4DBFBFBF</color>
+    <color name="json_view_true_color">#2e7d32</color>
+    <color name="json_view_false_color">#e53935</color>
 </resources>
