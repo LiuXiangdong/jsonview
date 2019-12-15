@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
         jsonView.setJson("{\n" +
                 "    \"name\": \"Supermarket\",\n" +
                 "    \"location\": \"main street\",\n" +
+                "    \"homepage\": \"http://www.example.com\",\n" +
                 "    \"serving_hour\": 24,\n" +
                 "    \"products\": [{\n" +
                 "        \"name\": \"fruit\",\n" +
@@ -38,8 +39,6 @@ public class MainActivity extends AppCompatActivity {
                 "        \"description\": \"I'm fruit, but the price makes me wonder if I'm π.\",\n" +
                 "        \"sold_out\": false,\n" +
                 "        \"category\": [{\n" +
-                "            \"name\": \"apple\"\n" +
-                "        }, {\n" +
                 "            \"name\": \"orange\"\n" +
                 "        }, {\n" +
                 "            \"name\": \"banana\"\n" +

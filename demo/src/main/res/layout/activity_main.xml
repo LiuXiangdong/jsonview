@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<com.liuxiangdong.jsonview.DefaultJsonView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.liuxiangdong.jsonview.decorated.DecoratedJsonView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/json_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent" />
